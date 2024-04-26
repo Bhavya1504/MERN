@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Employee List</title>
+</head>
+<body>
+  <h1>Employee List</h1>
+  <table>
+    <thead>
+      <tr>
+        <th>Name</th>
+        <th>Email</th>
+        <th>Mobile</th>
+        <th>Designation</th>
+        <th>Gender</th>
+        <th>Course</th>
+        <th>Image</th>
+      </tr>
+    </thead>
+    <tbody id="employeeDetails">
+    </tbody>
+  </table>
+
+  <script>
+    function getQueryParam(name) {
+      const urlParams = new URLSearchParams(window.location.search);
+      const paramValue = urlParams.get(name);
+      console.log(`${name}:`, paramValue);
+      return paramValue ? paramValue.replace(/\+/g, ' ') : 'N/A';
+    }
+  
+    
+    function parseJSON(jsonString) {
+      try {
+        return JSON.parse(jsonString);
+      } catch (error) {
+        console.error('Error parsing JSON:', error);
+        return null;
+      }
+    }
+  
+    
+    const name = getQueryParam('name') || 'N/A';
+    const email = getQueryParam('email') || 'N/A';
+    const mobile = getQueryParam('mobile') || 'N/A';
+    const designation = getQueryParam('designation') || 'N/A';
+    const gender = getQueryParam('gender') || 'N/A';
+    const course = parseJSON(getQueryParam('course')) || [];
+    const image = getQueryParam('image') || 'N/A';
+  
+    const employeeDetails = document.getElementById('employeeDetails');
+    const newRow = employeeDetails.insertRow();
+    newRow.innerHTML = `
+      <td>${name}</td>
+      <td>${email}</td>
+      <td>${mobile}</td>
+      <td>${designation}</td>
+      <td>${gender}</td>
+      <td>${Array.isArray(course) ? course.join('<br>') : 'N/A'}</td>
+      <td><img src="${image}" alt="Employee Image" style="max-width: 100px;"></td>
+    `;
+  </script>
+  
+  
+</body>
+</html>
