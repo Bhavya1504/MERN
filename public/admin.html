@@ -1,29 +1,178 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+ 
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Login</title>
+  <title>Admin</title>
+  <style>
   
-  <link rel="stylesheet" href="styles.css"> <!-- Updated path to CSS file -->
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+      background-color: #f1f1f1;
+    }
+    
+    nav {
+      margin-top: 50px;
+      background-color: #244bb8;
+      color: #fff;
+      padding: 10px;
+      display: flex; /* Use flexbox for layout */
+      justify-content: space-between; 
+      align-items: center; 
+    }
+    
+    nav ul {
+      list-style-type: none;
+      margin: 0;
+      padding: 0;
+      display: flex;
+    }
+    
+    nav ul li {
+      margin-right: 20px; 
+    }
+    
+    nav ul li a {
+      text-decoration: none;
+      color: #ebe1e1;
+      padding: 8px 12px; 
+      border: 5px solid #000405; 
+      border-radius: 8px; 
+      font-weight: bold;
+    }
+
+    .create-employee {
+      margin-top: 50px;
+      margin-left: 60px;
+      display: none; 
+    }
+
+    .create-employee form {
+      padding: 20px;
+      border: 2px solid #000405;
+      border-radius: 8px;
+      background-color: #dddfd9;
+    }
+
+    .create-employee form label,
+    .create-employee form input,
+    .create-employee form select {
+      display: block;
+      margin-bottom: 10px;
+    }
+
+    .create-employee form button[type="submit"] {
+      padding: 8px 16px;
+      background-color: #4CAF50;
+      border: none;
+      border-radius: 4px;
+      color: white;
+      cursor: pointer;
+      
+    }
+
+    .create-employee form button[type="submit"]:hover {
+      background-color: #45a049;
+    }
+    .create-employee-button {
+      margin-top: 20px;
+      margin-left: 60px;
+      padding: 10px 20px;
+      border-radius: 80px;
+      color: #030101;
+    }
+    h1 {
+      margin-top: 20px;
+      text-align: center;
+    }
+  </style>
 </head>
 <body>
-  <div class="container">
-    <h2>Login</h2>
-    <form id="loginForm" action="/login" method="POST">
-      <div class="form-group">
-        <label for="username">Username:</label>
-        <input type="text" id="username" name="username" required>
+  <nav>
+    <ul>
+      <li><a href="/">Home</a></li>
+      <li><a href="/employee-list.html">Employee List</a></li>
+    </ul>
+    <div>
+      <span id="userInfo"></span>
+      <button onclick="logout()">Logout</button> 
+    </div>
+  </nav>
+
+  <div class="create-employee" id="createEmployeeForm">
+    <form action="/submit_employee" method="POST" enctype="multipart/form-data">
+      <div>
+        <label for="name">Name:</label>
+        <input type="text" id="name" name="name" required>
       </div>
-      <div class="form-group">
-        <label for="password">Password:</label>
-        <input type="password" id="password" name="password" required>
+      <div>
+        <label for="email">Email:</label>
+        <input type="email" id="email" name="email" required>
       </div>
-      <button type="submit">Login</button>
-      
+      <div>
+        <label for="mobile">Mobile No:</label>
+        <input type="text" id="mobile" name="mobile" required>
+      </div>
+      <div>
+        <label for="designation">Designation:</label>
+        <select id="designation" name="designation" required>
+          <option value="HR">HR</option>
+          <option value="Manager">Manager</option>
+          <option value="Sales">Sales</option>
+        </select>
+      </div>
+      <div>
+        <label>Gender:</label>
+        <input type="radio" id="male" name="gender" value="Male" required>
+        <label for="male">Male</label>
+        <input type="radio" id="female" name="gender" value="Female" required>
+        <label for="female">Female</label>
+      </div>
+      <div>
+        <label for="course">Course:</label>
+        <input type="checkbox" id="mca" name="course[]" value="MCA">
+        <label for="mca">MCA</label>
+        <input type="checkbox" id="bca" name="course[]" value="BCA">
+        <label for="bca">BCA</label>
+        <input type="checkbox" id="bsc" name="course[]" value="BSC">
+        <label for="bsc">BSC</label>
+      </div>
+      <div>
+        <label for="image">Img Upload:</label>
+        <input type="file" id="image" name="image" accept="image/*" required>
+      </div>
+      <button type="submit">Submit</button>
     </form>
   </div>
 
-  <script src="script.js"></script> 
+  <div class="create-employee-button">
+    <button onclick="toggleCreateEmployeeForm()">Create Employee</button>
+  </div>
+
+  <script>
+    
+    function getQueryParam(name) {
+      const urlParams = new URLSearchParams(window.location.search);
+      return urlParams.get(name);
+    }
+
+    
+    const username = getQueryParam('username');
+    if (username) {
+      document.getElementById('userInfo').textContent = `Logged in as: ${username}`;
+    }
+
+    function logout() {
+      window.location.href = '/'; 
+    }
+
+    function toggleCreateEmployeeForm() {
+      const form = document.getElementById('createEmployeeForm');
+      form.style.display = (form.style.display === 'none') ? 'block' : 'none';
+    }
+  </script>
 </body>
 </html>
